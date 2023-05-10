@@ -6,6 +6,7 @@ import java.util.Date;
 class WrongStudentName extends Exception { }
 class WrongAge extends Exception { }
 class WrongDateOfBirth extends Exception { }
+class Zlywybor extends Exception { }
 
 
 class Main {
@@ -30,6 +31,9 @@ class Main {
                 System.out.println("Błędny wiek!");}
           catch(WrongDateOfBirth e) {
                 System.out.println("Błędna data!");}
+          catch(Zlywybor e){
+            System.out.println("Błedny wybór")
+          }
         }
     }
 
@@ -40,6 +44,8 @@ class Main {
         System.out.println("3 - aby wyszukać studenta po imieniu");
         System.out.println("0 - aby wyjść z programu");
         return scan.nextInt();
+      if(scan.contains(s))
+        throw new Zlywybor();
     }
 
     public static String ReadName() throws WrongStudentName {
@@ -61,6 +67,12 @@ class Main {
         scan.nextLine();
         System.out.println("Podaj datę urodzenia DD-MM-YYY");
         var date = scan.nextLine();
+        String[] dateParts = date.split("-");
+        int day = Integer.parseInt(dateParts[0]);
+        int month = Integer.parseInt(dateParts[1]);
+        int year = Integer.parseInt(dateParts[2]);
+     if((day<0||day>31)||(month<0||month>12)||(year<1800||year>3000))
+        throw new WrongDateOfBirth();
         (new Service()).addStudent(new Student(name, age, date));
     }
 
